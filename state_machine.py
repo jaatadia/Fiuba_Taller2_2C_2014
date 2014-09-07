@@ -18,6 +18,7 @@ class State_machine():
 
 	def draw(self):
 		""" le dice al estado activo que se dibuje """
+		self.screen.fill((0,0,0))
 		self.activo.draw(self.screen)
 		pygame.display.flip()
 		

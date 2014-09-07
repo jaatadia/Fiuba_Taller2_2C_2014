@@ -2,22 +2,24 @@ import pygame
 
 from element import element
 
+class none():
+	def __init__(self):
+		pass
+
+	def act(self):
+		print("Estoy actuando")
+		
+
 class button(element):
 	""" clase que representa un boton de la pantalla """
-	def __init__(self,x,y,width,height):
-		element.__init__(self)
-		self.x=x
-		self.y=y
-		self.width=width
-		self.height=height
+	def __init__(self,x,y,width,height,func = none()):
+		element.__init__(self,x,y,width,height)
+		self.func=func
 		self.state = "released"
 		self.colores = {"released":(0,0,255),"hover":(0,255,0),"pressed":(255,0,0)}
 	
-	def in_me(self,x,y):
-		return (( self.x <= x ) and ( self.x + self.width >= x ) and ( self.y <= y ) and ( self.y + self.height >= y))
-
 	def __act__(self):
-		print "Estoy actuando!!!!"
+		self.func.act()
 		
 	def draw(self,screen):
 		screen.fill(self.colores[self.state],(self.x,self.y,self.width,self.height))
@@ -31,8 +33,6 @@ class button(element):
 					self.__act__()
 				self.state = "hover"
 		else:
-			if(self.state == "pressed"):
-				self.__act__()
 			self.state = "released"
 		
 class round_button(button):
