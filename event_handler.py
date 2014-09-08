@@ -11,6 +11,8 @@ class Event_handler():
 		self.shifted = False
 		self.mayus = False
 		self.__init_hash__()
+		
+		pygame.key.set_repeat(500, 100)
 
 	def __init_hash__(self):
 		
@@ -55,6 +57,7 @@ class Event_handler():
 		self.hash_unshifted[K_DOWN]= "DOWN"
 		self.hash_unshifted[K_BACKSPACE]="BACK"
 		self.hash_unshifted[13]="ENTER"
+		self.hash_unshifted[K_DELETE ]="DEL"
 
 		self.hash_shifted[K_0] =')'
 		self.hash_shifted[K_1]='!'
@@ -84,17 +87,16 @@ class Event_handler():
 		self.hash_shifted[K_DOWN]= "DOWN"
 		self.hash_shifted[K_BACKSPACE]="BACK"
 		self.hash_shifted[13]="ENTER"
+		self.hash_shifted[K_DELETE ]="DEL"
 		
 	
 	def __convert_char__(self,key):
 		""" convierte el key si concuerda con el de un caracter """
-		if self.hash[self.shifted^self.mayus].has_key(key):
-			if (key	>= K_a and key <= K_z):		
-				return self.hash[self.shifted^self.mayus][key]
-			else:
-				return self.hash[self.shifted][key]
-		else:					
-				return ''
+		if (key	>= K_a and key <= K_z):		
+			return self.hash[self.shifted^self.mayus].get(key,'')
+		else:
+			return self.hash[self.shifted].get(key,'')
+
 				
 				
 
@@ -115,7 +117,6 @@ class Event_handler():
 					self.mayus = not self.mayus
 				else:
 					char = self.__convert_char__(event.key)
-					print char
 					if(char <> ''):
 						pressed_char = pressed_char + [char]			
 
