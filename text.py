@@ -2,6 +2,55 @@
 from element import element
 import pygame
 
+
+class plain_text(element):
+	""" texto plano """
+	def __init__(self,x,y,width,height,text = "Hola",initial=20,color = (0,0,0)):
+		element.__init__(self,x,y,width,height)
+		self.text = text
+		self.color = color
+		self.__segment_text__(initial)
+
+	def __segment_text__(self,initial):
+		pt=initial
+		found=False
+		while (not found and pt>0):
+			vector = []
+			total_height=0
+			i=0
+			j=0
+			font = pygame.font.SysFont("def",pt)
+			while (j<=len(self.text)):
+				width,height=font.size(self.text[i:j])
+				if (width>self.width):
+					vector += [self.text[i:j-1]]
+					i = j-1
+					total_height += height
+				j += 1
+
+			if (self.text[i:j]<>""):
+				vector += [self.text[i:j]]
+				width,height=font.size(self.text[i:j])
+				total_height += height
+			
+			if(total_height<=self.height):
+				found=True
+			else:
+				pt-=1
+
+		self.font = font
+		self.text = tuple(vector)
+
+
+	def draw(self,screen):
+		""" dibuja el objeto """
+		start_y = self.y
+		for text in self.text:		
+			rend = self.font.render(text,True,self.color)
+			screen.blit(rend,(self.x,start_y))
+			start_y += rend.get_height()
+
+
 class text_bar(element):
 	""" barrita de texto """
 	def __init__(self,x,y,width,height,text = "Hola"):
@@ -54,12 +103,12 @@ class text_bar(element):
 	def draw(self,screen):
 		""" dibuja el objeto """
 		self.cursor+=1
-		self.cursor%=10
+		self.cursor%=100
 
 		ini,end = self.__get_init_final_positions__()
 		rend = self.font.render((self.text+' ')[ini:end],True,self.color)		
 		desp_y=(self.height-rend.get_height())/2
-		if self.cursor < 5:
+		if self.cursor < 50:
 			width,height=self.font.size(self.text[ini:self.pos])			
 			p1=(width,0)
 			p2=(width,height)
@@ -130,4 +179,6 @@ class text_bar(element):
 			self.events.get(i,self.__text__)()
 		if (mouse[2]==1) and (self.in_me(mouse[0],mouse[1])):
 			self.__recalc_pos__(mouse[0]-self.x,mouse[1]-self.y)
+
+		return element.update(self,press_char,unpress_char,mouse)
 		
