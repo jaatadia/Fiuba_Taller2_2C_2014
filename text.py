@@ -1,5 +1,6 @@
 
 from element import element
+from constants import Constants
 import pygame
 
 
@@ -10,6 +11,7 @@ class plain_text(element):
 		self.text = text
 		self.color = color
 		self.__segment_text__(initial)
+		self.prev_mouse_pressed = False
 
 	def __segment_text__(self,initial):
 		pt=initial
@@ -62,9 +64,13 @@ class text_bar(element):
 
 		self.chars_on_display = 10
 		self.font = pygame.font.SysFont("def",height)
-		self.color = (255,255,255)
-		
+		self.color = Constants.text_bar_color
+		self.back = Constants.text_bar_color_background
+	
 		self.__set_events__()
+
+	def get_text(self):
+		return self.text
 
 	def __get_init_final_positions__(self):
 		""" calcula la primer y la ultima posicion a mostrar """ 
@@ -112,8 +118,9 @@ class text_bar(element):
 			width,height=self.font.size(self.text[ini:self.pos])			
 			p1=(width,0)
 			p2=(width,height)
-			pygame.draw.line(rend,self.color,p1,p2,2)		
-		screen.fill((230,0,230),(self.x,self.y,self.width,self.height))
+			pygame.draw.line(rend,self.color,p1,p2,2)
+		
+		screen.fill(self.back,(self.x,self.y,self.width,self.height))
 		screen.blit(rend,(self.x,self.y+desp_y),(0,0,self.width,self.height))
 
 	def __recalc_pos__(self,x,y):
@@ -177,8 +184,13 @@ class text_bar(element):
 		for i in press_char:		
 			self.char=i
 			self.events.get(i,self.__text__)()
-		if (mouse[2]==1) and (self.in_me(mouse[0],mouse[1])):
-			self.__recalc_pos__(mouse[0]-self.x,mouse[1]-self.y)
+
+		if (mouse[2]==1):
+			if ( not self.prev_mouse_pressed) and (self.in_me(mouse[0],mouse[1])):
+				self.__recalc_pos__(mouse[0]-self.x,mouse[1]-self.y)
+			self.prev_mouse_pressed= True
+		else:
+			self.prev_mouse_pressed= False
 
 		return element.update(self,press_char,unpress_char,mouse)
 		

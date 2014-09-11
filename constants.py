@@ -15,6 +15,10 @@ class Constants():
 	#logical dimensions
 	logical_width = 800
 	logical_height = 600
+#-----------------------------------------
+	#text_bar colors
+	text_bar_color = (0,0,0)
+	text_bar_color_background = (100,100,100)
 
 #-----------------------------------------
 	#prompt limits
@@ -39,21 +43,30 @@ class Constants():
 	prompt_default_width=400
 	prompt_default_height=200
 
-	prompt_title_x=0
-	prompt_title_y=0
-	prompt_title_width=1
-	prompt_title_height=2/12.0
+	prompt_title_x=1/400.0
+	prompt_title_y=1/200.0
+	prompt_title_width=398/400.0
+	prompt_title_height=28/200.0
 
-	prompt_text_x=0
-	prompt_text_y=2/12.0
-	prompt_text_width=1
-	prompt_text_height=5/12.0
+	prompt_text_x=1/400.0
+	prompt_text_y=30/200.0
+	prompt_text_width=398/400.0
+	prompt_text_height=149/200.0
 
-	prompt_button_x=0
-	prompt_button_y=9/12.0
-	prompt_button_width=1
-	prompt_button_height=2/12.0
+	prompt_button_x=300/400.0
+	prompt_button_y=150/200.0
+	prompt_button_width=99/400.0
+	prompt_button_height=49/200.0
 
+	#text_prompt proportions
+	#   _______________________
+	#  |title_________________ |
+	#  | prompt text           |
+	#  |                       |
+	#  |  ___________   _______|
+	#  |_|input_text|__|button_|
 
-	
-
+	prompt_input_text_x=2/400.0
+	prompt_input_text_y=150/200.0
+	prompt_input_text_width=296/400.0
+	prompt_input_text_height=49/200.0

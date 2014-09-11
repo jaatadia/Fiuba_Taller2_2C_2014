@@ -31,5 +31,6 @@ class initial_screen(state):
 		self.elements+=[buttons.button(50,50,50,50)]
 		self.elements+=[buttons.round_button(125,50,150,150)]
 		self.elements+=[text.text_bar(300,300,100,20)]
-		self.elements+=[prompts.prompt(300,100,200,100)]
+		self.elements+=[prompts.prompt(300,100)]
+		self.elements+=[prompts.input_prompt(50,200)]
 		
