@@ -1,4 +1,5 @@
 import pygame
+from constants import Constants
 from pygame.locals import *
 
 class Event_handler():
@@ -129,7 +130,8 @@ class Event_handler():
 						unpressed_char = pressed_char + [char]			
 			
 			elif (event.type == MOUSEMOTION)or(event.type == MOUSEBUTTONUP)or(event.type == MOUSEBUTTONDOWN):
-				self.mouse[0],self.mouse[1]=pygame.mouse.get_pos()
+				self.mouse[0]=pygame.mouse.get_pos()[0]*Constants.logical_width/pygame.display.get_surface().get_width()
+				self.mouse[1]=pygame.mouse.get_pos()[1]*Constants.logical_height/pygame.display.get_surface().get_height()
 				self.mouse[2],self.mouse[3],self.mouse[4]=pygame.mouse.get_pressed()
 
 
