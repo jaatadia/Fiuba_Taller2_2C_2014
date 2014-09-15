@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+import sys
+sys.path.insert(0, './src')
+
+
 from event_handler import Event_handler
 from state_machine import State_machine
 from constants import Constants

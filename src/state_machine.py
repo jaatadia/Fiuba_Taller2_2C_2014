@@ -16,6 +16,7 @@ class State_machine():
 	def update(self,press_char,unpress_char,mouse):
 		""" le dice al estado activo que se update """
 		self.activo.update(press_char,unpress_char,mouse)
+		self.activo=self.activo.get_next_state()
 
 	def draw(self):
 		""" le dice al estado activo que se dibuje """

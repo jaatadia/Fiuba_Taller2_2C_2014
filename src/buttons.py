@@ -34,6 +34,14 @@ class button(element):
 		else:
 			self.state = "released"
 
+class input_button(button):
+		
+	def __init__(self,x,y,width,height,func = act,myinput="none"):
+		button.__init__(self,x,y,width,height,func)
+		self.input=myinput
+	
+	def __act__(self):
+		self.func(self.input)
 #----------------------------------------------------------------------
 #----------------------------------------------------------------------		
 
