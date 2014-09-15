@@ -2,6 +2,7 @@ from element import element
 from buttons import button,bar
 from text import plain_text,text_bar
 from constants import Constants
+import pygame
 
 def none():
 	pass
@@ -30,10 +31,8 @@ class prompt(element):
 		buw=Constants.prompt_button_width
 		buh=Constants.prompt_button_height
 	
-		self.bar = bar(int(width*bx),int(height*by),int(width*bw),int(height*bh),bar_text,Constants.prompt_color_title,Constants.prompt_color_title_background,self.move)	
-			
-		self.text = plain_text(int(width*tx),int(height*ty),int(width*tw),int(height*th),text,Constants.prompt_text_pt,Constants.prompt_color_text)
-
+		self.bar = bar(int(width*bx),int(height*by),int(width*bw),int(height*bh),bar_text,self.move)	
+		self.text = plain_text(int(width*tx),int(height*ty),int(width*tw),int(height*th),text)
 		self.button = button(int(width*bux),int(height*buy),int(width*buw),int(height*buh),self.__die__)
 		
 
@@ -49,20 +48,20 @@ class prompt(element):
 		self.alive=False
 		self.function()
 
-	def draw(self,screen):
-		screen.fill(Constants.prompt_color_text_background,(self.x,self.y,self.width,self.height))
-		surface=screen.subsurface((self.x,self.y,self.width,self.height))
-		self.button.draw(surface)
-		self.text.draw(surface)
-		self.bar.draw(surface)
+
 
 	def update(self,press_char,unpress_char,mouse):
 		new_mouse=(mouse[0]-self.x,mouse[1]-self.y,mouse[2],mouse[3],mouse[4])		
 		self.button.update(press_char,unpress_char,new_mouse)
 		self.bar.update(press_char,unpress_char,new_mouse)
-		
-		return self.alive,()
 
+
+	def draw(self,screen):
+		screen.fill(Constants.prompt_color_text_background,self.get_dimensions())
+		surface=screen.subsurface(self.get_dimensions())
+		self.button.draw(surface)
+		self.text.draw(surface)
+		self.bar.draw(surface)
 
 #-------------------------------------------------
 

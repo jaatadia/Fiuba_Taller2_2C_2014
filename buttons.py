@@ -1,6 +1,6 @@
-import pygame
-
 from element import element
+from constants import Constants
+import pygame
 
 def act():
 	print("Estoy actuando")
@@ -15,12 +15,13 @@ class button(element):
 		self.func=func
 		self.state = "released"
 		self.colores = {"released":(0,0,255),"hover":(0,255,0),"pressed":(255,0,0)}
+		
 	
 	def __act__(self):
 		self.func()
-		
+	
 	def draw(self,screen):
-		screen.fill(self.colores[self.state],(self.x,self.y,self.width,self.height))
+		screen.fill(self.colores[self.state],self.get_dimensions())	
 
 	def update(self,press_char,unpress_char,mouse):
 		if self.in_me(mouse[0],mouse[1]):
@@ -32,8 +33,6 @@ class button(element):
 				self.state = "hover"
 		else:
 			self.state = "released"
-		
-		return element.update(self,press_char,unpress_char,mouse)
 
 #----------------------------------------------------------------------
 #----------------------------------------------------------------------		
@@ -46,36 +45,26 @@ class round_button(button):
 		return ((x-center_x)/(self.width/2.0))**2+((y-center_y)/(self.height/2.0))**2<=1
 
 	def draw(self,screen):
-		pygame.draw.ellipse(screen,self.colores[self.state],(self.x,self.y,self.width,self.height))
-
-
+		pygame.draw.ellipse(screen,self.colores[self.state],self.get_dimensions())
 
 #----------------------------------------------------------------------
 #----------------------------------------------------------------------
 def move(x,y):
 	print("Debo desplazarme: "+str(x)+" en X , "+str(y)+" en Y.") 		
+
 class bar(element):
-	def __init__(self,x,y,width,height,text = "Error",color = (0,0,0),background=(0,255,0),msg=move):
+	def __init__(self,x,y,width,height,text = "Error",msg=move):
 		element.__init__(self,x,y,width,height)
-		
+
 		self.msg=msg
-
 		self.text = text		
-		self.font = pygame.font.SysFont("def",height)
-
-		self.font_color = color
-		self.color = background
-
 		self.prev_mouse_status = "Unclicked"
 		self.status = "Unclicked"
 		self.click = (-1,-1)
+		self.font = pygame.font.SysFont("def",self.height)
+		self.font_color = Constants.prompt_color_title
+		self.color = Constants.prompt_color_title_background
 
-
-	def draw(self,screen):
-		screen.fill(self.color,(self.x,self.y,self.width,self.height))
-		rend = self.font.render(self.text,True,self.font_color)
-		desp_y=(self.height-rend.get_height())/2
-		screen.blit(rend,(self.x,self.y+desp_y))
 
 	def update(self,press_char,unpress_char,mouse):
 		if (mouse[2]==1):
@@ -91,9 +80,9 @@ class bar(element):
 		else:			
 			self.status = "Unclicked"
 			self.prev_mouse_status = "Unclicked"
-		
-		
-		return element.update(self,press_char,unpress_char,mouse)
-		
-		
-		
+
+	def draw(self,screen):
+		screen.fill(self.color,self.get_dimensions())
+		rend = self.font.render(self.text,True,self.font_color)
+		desp_y=(self.height-rend.get_height())/2
+		screen.blit(rend,(self.x,self.y+desp_y))

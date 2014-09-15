@@ -6,12 +6,12 @@ import pygame
 
 class plain_text(element):
 	""" texto plano """
-	def __init__(self,x,y,width,height,text = "Hola",initial=20,color = (0,0,0)):
+	def __init__(self,x,y,width,height,text = "Hola",initial=20,color=(0,0,0)):
 		element.__init__(self,x,y,width,height)
 		self.text = text
-		self.color = color
 		self.__segment_text__(initial)
 		self.prev_mouse_pressed = False
+		self.color = color
 
 	def __segment_text__(self,initial):
 		pt=initial
@@ -51,7 +51,6 @@ class plain_text(element):
 			rend = self.font.render(text,True,self.color)
 			screen.blit(rend,(self.x,start_y))
 			start_y += rend.get_height()
-
 
 class text_bar(element):
 	""" barrita de texto """
